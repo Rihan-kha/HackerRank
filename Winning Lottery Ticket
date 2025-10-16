@@ -1,0 +1,34 @@
+#define MAX_TICKETS 100000
+#define DIGIT_MASKS 1024  // 2^10 possible digit combinations
+
+int get_mask(const char *ticket) {
+    int mask = 0;
+    while (*ticket) {
+        mask |= 1 << (*ticket - '0');
+        ticket++;
+    }
+    return mask;
+}
+
+long winningLotteryTicket(int tickets_count, char **tickets) {
+    int mask_freq[DIGIT_MASKS] = {0};
+    for (int i = 0; i < tickets_count; i++) {
+        int mask = get_mask(tickets[i]);
+        mask_freq[mask]++;
+    }
+
+    long total_pairs = 0;
+    for (int i = 0; i < DIGIT_MASKS; i++) {
+        for (int j = i; j < DIGIT_MASKS; j++) {
+            if ((i | j) == 1023) {  // 1023 = 0b1111111111
+                if (i == j) {
+                    total_pairs += (long)mask_freq[i] * (mask_freq[i] - 1) / 2;
+                } else {
+                    total_pairs += (long)mask_freq[i] * mask_freq[j];
+                }
+            }
+        }
+    }
+
+    return total_pairs;
+}
