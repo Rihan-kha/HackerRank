@@ -1,0 +1,36 @@
+python
+def decodeHuff(root, s):
+	#Enter Your Code Here
+    st = ''
+    i=0
+    while(i<len(s)):
+        temp = root
+        while (temp.left or temp.right):
+            c = s[i]
+            if (c=='1'):
+                temp = temp.right
+            else:
+                temp = temp.left
+            i+=1
+        st = st + temp.data
+    print(st)
+/////////////////
+C++
+void decode_huff(node * root, string s) {
+    int i=0;
+    char c;
+    node *temp;
+    while (i < s.length()) {
+        temp = root;
+        while (temp->left && temp->right){
+            c = s[i];
+            if (c=='1')
+                temp = temp->right;
+            else
+                temp = temp->left;
+            i+=1;
+            }
+        cout << temp->data;
+    }
+    
+}
